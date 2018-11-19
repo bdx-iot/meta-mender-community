@@ -1,0 +1,7 @@
+# Appended fragment from meta-mender-community/meta-mender-nxp/templates
+
+MACHINE ?= "imx7s-warp"
+
+IMAGE_INSTALL_append = " kernel-image kernel-devicetree"
+
+MENDER_FEATURES_DISABLE_append = " mender-grub mender-image-uefi"

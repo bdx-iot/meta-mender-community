@@ -22,6 +22,7 @@ targets=(
     "beaglebone"
     "intel"
     "qemu"
+    "nxp"
     "raspberrypi"
     "renesas"
     "rockchip"
