@@ -31,7 +31,8 @@ targets=(
     "sunxi"
     "tegra"
     "up"
-    "variscite")
+    "variscite"
+    "xilinx")
 
 for i in ${targets[@]}
 do
