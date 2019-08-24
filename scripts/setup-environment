@@ -28,6 +28,7 @@ targets=(
     "raspberrypi"
     "renesas"
     "rockchip"
+    "st"
     "sunxi"
     "tegra"
     "up"
