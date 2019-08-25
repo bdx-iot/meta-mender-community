@@ -1,0 +1,20 @@
+# Appended fragment from meta-mender-community/meta-mender-st/templates
+
+MACHINE ?= "stm32mp157a-dk1"
+
+IMAGE_INSTALL_append = " kernel-image kernel-devicetree"
+
+MENDER_FEATURES_ENABLE_append = " mender-uboot mender-image-gpt"
+MENDER_FEATURES_DISABLE_append = " mender-grub mender-image-uefi"
+
+# Environment
+MENDER_UBOOT_ENV_STORAGE_DEVICE_OFFSET_1 = "0x280000"
+# Redundant environment
+MENDER_UBOOT_ENV_STORAGE_DEVICE_OFFSET_2 = "0x300000"
+
+# Remove the Boot partition
+MENDER_BOOT_PART_SIZE_MB = "0"
+
+MENDER_DATA_PART = "${MENDER_STORAGE_DEVICE_BASE}6"
+MENDER_ROOTFS_PART_A = "${MENDER_STORAGE_DEVICE_BASE}4"
+MENDER_ROOTFS_PART_B = "${MENDER_STORAGE_DEVICE_BASE}5"

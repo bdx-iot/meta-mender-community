@@ -1,0 +1,36 @@
+From b7995ef4907a0232ca7b7bc1e8068e52ce085d8a Mon Sep 17 00:00:00 2001
+From: Pierre-Jean Texier <pjtexier@koncepto.io>
+Date: Thu, 22 Aug 2019 21:38:36 +0200
+Subject: [PATCH 2/3] fw_env: fix build error
+MIME-Version: 1.0
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
+
+The following error appears:
+
+tools/env/fw_env.c:1149:25: error: lvalue required as unary ‘&’ operand
+  rc = write(fd, &ENV_REDUND_OBSOLETE, sizeof(ENV_REDUND_OBSOLETE));
+
+Fixes: d3716dd ("env: Rename the redundancy flags")
+
+Signed-off-by: Pierre-Jean Texier <pjtexier@koncepto.io>
+---
+ tools/env/fw_env.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+
+diff --git a/tools/env/fw_env.c b/tools/env/fw_env.c
+index 876bf2b..b8b936f 100644
+--- a/tools/env/fw_env.c
++++ b/tools/env/fw_env.c
+@@ -1146,7 +1146,7 @@ static int flash_flag_obsolete(int dev, int fd, off_t offset)
+ 		return rc;
+ 	}
+ 	ioctl(fd, MEMUNLOCK, &erase);
+-	rc = write(fd, &ENV_REDUND_OBSOLETE, sizeof(ENV_REDUND_OBSOLETE));
++	rc = write(fd, ENV_REDUND_OBSOLETE, sizeof(ENV_REDUND_OBSOLETE));
+ 	ioctl(fd, MEMLOCK, &erase);
+ 	if (rc < 0)
+ 		perror("Could not set obsolete flag");
+-- 
+2.7.4
+

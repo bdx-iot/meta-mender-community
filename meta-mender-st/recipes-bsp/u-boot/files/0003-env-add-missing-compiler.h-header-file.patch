@@ -1,0 +1,40 @@
+From f8778121fac5fc03144799b60df4c7ad32fa955d Mon Sep 17 00:00:00 2001
+From: Pierre-Jean Texier <pjtexier@koncepto.io>
+Date: Thu, 22 Aug 2019 21:54:03 +0200
+Subject: [PATCH 3/3] env: add missing "compiler.h" header file
+MIME-Version: 1.0
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
+
+Since commit af95f20 ("env: Create a new file for environment functions"),
+some functions was moved to env.h.
+
+Fixes:
+
+include/env.h:158:1: error: unknown type name ‘ulong’; did you mean ‘long’?
+ ulong env_get_ulong(const char *name, int base, ulong default_val);
+ ^~~~~
+ long
+include/env.h:158:49: error: unknown type name ‘ulong’; did you mean ‘long’?
+ ulong env_get_ulong(const char *name, int base, ulong default_val);
+
+Signed-off-by: Pierre-Jean Texier <pjtexier@koncepto.io>
+---
+ include/env.h | 1 +
+ 1 file changed, 1 insertion(+)
+
+diff --git a/include/env.h b/include/env.h
+index a74a261..9a906de 100644
+--- a/include/env.h
++++ b/include/env.h
+@@ -9,6 +9,7 @@
+ #ifndef __ENV_H
+ #define __ENV_H
+ 
++#include "compiler.h"
+ #include <stdbool.h>
+ #include <linux/types.h>
+ 
+-- 
+2.7.4
+

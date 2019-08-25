@@ -1,0 +1,80 @@
+From 5c99bd652451e2d9cb07be1a86e61ffcc1f5d704 Mon Sep 17 00:00:00 2001
+From: Pierre-Jean Texier <pjtexier@koncepto.io>
+Date: Fri, 30 Aug 2019 18:06:41 +0200
+Subject: [PATCH] ARM: STM32MP1: Add support to mender
+
+Signed-off-by: Pierre-Jean Texier <pjtexier@koncepto.io>
+---
+ configs/stm32mp15_basic_defconfig | 11 +++++------
+ include/configs/stm32mp1.h        | 11 +++++++++++
+ 2 files changed, 16 insertions(+), 6 deletions(-)
+
+diff --git a/configs/stm32mp15_basic_defconfig b/configs/stm32mp15_basic_defconfig
+index 6d08c92..c621eff 100644
+--- a/configs/stm32mp15_basic_defconfig
++++ b/configs/stm32mp15_basic_defconfig
+@@ -2,8 +2,10 @@ CONFIG_ARM=y
+ CONFIG_ARCH_STM32MP=y
+ CONFIG_SYS_MALLOC_F_LEN=0x3000
+ CONFIG_SPL_MMC_SUPPORT=y
++CONFIG_ENV_OFFSET=0x280000
+ CONFIG_SPL=y
+ CONFIG_TARGET_STM32MP1=y
++CONFIG_ENV_SECT_SIZE=0x40000
+ CONFIG_SPL_SPI_FLASH_SUPPORT=y
+ CONFIG_SPL_SPI_SUPPORT=y
+ # CONFIG_ARMV7_VIRT is not set
+@@ -50,13 +52,8 @@ CONFIG_CMD_UBI=y
+ # CONFIG_SPL_DOS_PARTITION is not set
+ CONFIG_DEFAULT_DEVICE_TREE="stm32mp157c-ev1"
+ CONFIG_OF_SPL_REMOVE_PROPS="interrupts interrupt-names interrupts-extended interrupt-controller \\\#interrupt-cells interrupt-parent dmas dma-names assigned-clocks assigned-clock-rates assigned-clock-parents hwlocks"
+-CONFIG_ENV_IS_NOWHERE=y
+ CONFIG_ENV_IS_IN_MMC=y
+-CONFIG_ENV_IS_IN_SPI_FLASH=y
+-CONFIG_ENV_IS_IN_UBI=y
+-CONFIG_ENV_UBI_PART="UBI"
+-CONFIG_ENV_UBI_VOLUME="uboot_config"
+-CONFIG_ENV_UBI_VOLUME_REDUND="uboot_config_r"
++CONFIG_BOOTCOUNT_ENV=y
+ CONFIG_USB_FUNCTION_FASTBOOT=y
+ CONFIG_FASTBOOT_BUF_ADDR=0xC0000000
+ CONFIG_FASTBOOT_BUF_SIZE=0x02000000
+@@ -85,6 +82,7 @@ CONFIG_SPI_FLASH_STMICRO=y
+ CONFIG_SPI_FLASH_WINBOND=y
+ # CONFIG_SPI_FLASH_USE_4K_SECTORS is not set
+ CONFIG_SPI_FLASH_MTD=y
++CONFIG_UBI_SILENCE_MSG=y
+ CONFIG_DM_ETH=y
+ CONFIG_DWC_ETH_QOS=y
+ CONFIG_PHY=y
+@@ -120,4 +118,5 @@ CONFIG_USB_GADGET_PRODUCT_NUM=0x5720
+ CONFIG_USB_GADGET_DWC2_OTG=y
+ CONFIG_DM_VIDEO=y
+ CONFIG_BACKLIGHT_GPIO=y
++CONFIG_UBIFS_SILENCE_MSG=y
+ CONFIG_FDT_FIXUP_PARTITIONS=y
+diff --git a/include/configs/stm32mp1.h b/include/configs/stm32mp1.h
+index 69ba4e2..4e07478 100644
+--- a/include/configs/stm32mp1.h
++++ b/include/configs/stm32mp1.h
+@@ -166,6 +166,17 @@
+ 	BOOTENV \
+ 	"boot_net_usb_start=true\0"
+ 
++#undef CONFIG_BOOTCOMMAND
++
++#define CONFIG_BOOTCOMMAND \
++  "setenv bootargs 'root=${mender_kernel_root} rootwait rw';" \
++  "run mender_setup;" \
++  "mmc dev ${mender_uboot_dev}; " \
++  "load ${mender_uboot_root} ${kernel_addr_r} /boot/zImage; " \
++  "load ${mender_uboot_root} ${fdt_addr_r} /boot/stm32mp157a-dk1.dtb;" \
++  "bootz ${kernel_addr_r} - ${fdt_addr_r};" \
++  "run mender_try_to_recover"
++
+ #endif /* ifndef CONFIG_SPL_BUILD */
+ #endif /* ifdef CONFIG_DISTRO_DEFAULTS*/
+ 
+-- 
+2.7.4
+

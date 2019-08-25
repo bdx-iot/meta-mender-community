@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+  <manifest>
+  <default sync-j="4" revision="add/stm32mp1-dk1"/>
+
+  <remote fetch="git://git.yoctoproject.org"        name="yocto"/>
+  <remote fetch="git://github.com/bdx-iot"        name="st"/>
+
+  <project name="poky" remote="yocto" revision="warrior" path="sources/poky"/>
+  <project name="meta-stm32mp1" remote="st" revision="warrior" path="sources/meta-stm32mp1"/>
+
+  <include name="scripts/mender.xml"/>
+
+  </manifest>
