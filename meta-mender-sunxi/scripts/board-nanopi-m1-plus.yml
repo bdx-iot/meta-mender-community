@@ -1,0 +1,16 @@
+header:
+    version: 8
+    includes:
+        - kas-sunxi.yml
+
+machine: nanopi-m1-plus
+
+local_conf_header:
+    nanopi-m1-plus-config: |
+        # NanoPi, mmc index differs in U-boot and Linux. This configuration is for uSD.
+        MENDER_STORAGE_DEVICE = "/dev/mmcblk1"
+        MENDER_UBOOT_STORAGE_DEVICE = "0"
+
+        # NanoPi, uncomment this for eMMC. Remember to remove above!
+        #MENDER_STORAGE_DEVICE = "/dev/mmcblk3"
+        #MENDER_UBOOT_STORAGE_DEVICE = "1"

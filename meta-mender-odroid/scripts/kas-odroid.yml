@@ -1,0 +1,38 @@
+header:
+    version: 8
+
+repos:
+    meta-mender-community:
+        layers:
+            meta-mender-odroid:
+
+    poky:
+        url: https://git.yoctoproject.org/git/poky
+        refspec: zeus
+        layers:
+            meta:
+            meta-poky:
+            meta-yocto-bsp:
+
+    meta-odroid:
+        url: https://github.com/akuster/meta-odroid
+        refspec: zeus
+
+local_conf_header:
+    odroid-config: |
+        MENDER_FEATURES_ENABLE_append = " mender-uboot mender-image-sd"
+        MENDER_FEATURES_DISABLE_append = " mender-grub mender-image-uefi"
+
+        IMAGE_CLASSES += "odroid-sdimg"
+
+        MENDER_UBOOT_STORAGE_DEVICE_odroid-c2 = "0"
+        MENDER_STORAGE_DEVICE_odroid-c2 = "/dev/mmcblk1"
+
+        # Disable uboot-boot-scr.bbclass", we will provide a custom one as this is
+        # not flexible enough to apply all changes necessary for Mender.
+        #
+        # Bug in meta-odroid, which triggers a build error if boot.scr is disable,
+        # leave this commented until upstream is fixed.
+        #USE_BOOTSCR = "0"
+
+        IMAGE_BOOT_FILES_odroid-c2 = "odroid-boot.scr;boot.scr"

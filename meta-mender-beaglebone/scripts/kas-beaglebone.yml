@@ -1,0 +1,17 @@
+header:
+    version: 8
+
+machine: beaglebone-yocto
+
+repos:
+    meta-mender-community:
+        layers:
+            meta-mender-beaglebone:
+
+    poky:
+        url: https://git.yoctoproject.org/git/poky
+        refspec: zeus
+        layers:
+            meta:
+            meta-poky:
+            meta-yocto-bsp:

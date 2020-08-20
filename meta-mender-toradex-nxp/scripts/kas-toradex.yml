@@ -1,0 +1,51 @@
+header:
+  version: 8
+
+repos:
+  meta-mender-community:
+    layers:
+      meta-mender-toradex-nxp:
+
+  poky:
+    url: https://git.yoctoproject.org/git/poky
+    refspec: zeus
+    layers:
+      meta:
+      meta-poky:
+      meta-yocto-bsp:
+
+  meta-openembedded:
+    url: http://git.openembedded.org/meta-openembedded
+    refspec: zeus
+    layers:
+      meta-oe:
+
+  meta-freescale:
+    url: https://github.com/Freescale/meta-freescale
+    refspec: zeus
+
+  meta-freescale-3rdparty:
+    url: https://github.com/Freescale/meta-freescale-3rdparty
+    refspec: zeus
+
+  meta-toradex-bsp-common:
+    url: https://git.toradex.com/meta-toradex-bsp-common.git
+    refspec: zeus
+
+  meta-toradex-nxp:
+    url: https://git.toradex.com/meta-toradex-nxp.git
+    refspec: zeus
+
+local_conf_header:
+  toradex-config: |
+    # Make sure not to install the U-Boot script when using GRUB.
+    MACHINE_BOOT_FILES_remove_mender-grub = "boot.scr"
+
+    # Use u-boot rather than u-boot-toradex for Grub integration
+    PREFERRED_PROVIDER_u-boot_mender-grub = "u-boot"
+    PREFERRED_PROVIDER_virtual/bootloader_mender-grub = "u-boot"
+
+    IMAGE_CLASSES += "image_type_mender_tezi"
+    IMAGE_FSTYPES_append = " mender_tezi"
+    IMAGE_FSTYPES_remove = " teziimg"
+    include conf/machine/include/${MACHINE}.inc

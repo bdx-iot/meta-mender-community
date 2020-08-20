@@ -1,0 +1,47 @@
+header:
+  version: 8
+
+distro: fslc-framebuffer
+
+repos:
+  meta-mender-community:
+    layers:
+      meta-mender-nxp:
+
+  poky:
+    url: https://git.yoctoproject.org/git/poky
+    refspec: zeus
+    layers:
+      meta:
+      meta-poky:
+      meta-yocto-bsp:
+
+  meta-openembedded:
+    url: http://git.openembedded.org/meta-openembedded
+    refspec: zeus
+    layers:
+      meta-oe:
+
+  meta-freescale:
+    url: https://github.com/Freescale/meta-freescale
+    refspec: zeus
+
+  meta-freescale-3rdparty:
+    url: https://github.com/Freescale/meta-freescale-3rdparty
+    refspec: zeus
+
+  meta-freescale-distro:
+    url: https://github.com/Freescale/meta-freescale-distro
+    refspec: zeus
+
+  meta-boundary:
+    url: https://github.com/boundarydevices/meta-boundary
+    refspec: zeus
+
+local_conf_header:
+  nxp-config: |
+    IMAGE_INSTALL_append = " kernel-image kernel-devicetree"
+
+    # Specific Configuration for Mender
+    MENDER_FEATURES_ENABLE_append = " mender-uboot mender-image-sd"
+    MENDER_FEATURES_DISABLE_append = " mender-grub mender-image-uefi"

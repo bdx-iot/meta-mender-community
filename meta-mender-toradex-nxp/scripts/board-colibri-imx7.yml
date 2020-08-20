@@ -1,0 +1,16 @@
+header:
+  version: 8
+  includes:
+    - kas-toradex.yml
+
+machine: colibri-imx7
+
+local_conf_header:
+  colibri-imx7: |
+    INHERIT_remove = " mender-full "
+    INHERIT_append = " mender-full-ubi "
+    MENDER_MTDIDS = "nand0=gpmi-nand"
+    MENDER_MTDPARTS = "gpmi-nand:512k(mx7-bcb),1536k(u-boot1)ro,1536k(u-boot2)ro,512k(u-boot-env),-(ubi)"
+    MENDER_IMAGE_BOOTLOADER_FILE = "u-boot-nand.imx"
+    MENDER_PARTITION_ALIGNMENT = "131072"
+    KERNEL_DEVICETREE = "imx7d-colibri-aster.dtb"

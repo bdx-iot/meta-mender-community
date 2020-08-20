@@ -1,0 +1,33 @@
+header:
+    version: 8
+
+repos:
+    meta-mender-community:
+        layers:
+            meta-mender-tegra:
+
+    poky:
+        url: https://git.yoctoproject.org/git/poky
+        refspec: zeus
+        layers:
+            meta:
+            meta-poky:
+            meta-yocto-bsp:
+
+    meta-tegra:
+        url: https://github.com/madisongh/meta-tegra
+        refspec: zeus-l4t-r32.3.1
+
+local_conf_header:
+    tegra-config: |
+        # Tegra specific mender setup variables
+        INHERIT += "tegra-mender-setup"
+
+        # Grow the data partition by default
+        MENDER_FEATURES_ENABLE_append = " mender-growfs-data"
+
+        # Not required for mender support, but gives you access via SSH by default
+        # Note that the ssh key will change on each upgrade.  To fix this you need to
+        # symlink /etc/dropbear/dropbear_rsa_host_key to the data partition or use an
+        # overlay setup that maps the key to the data partition
+        EXTRA_IMAGE_FEATURES += " ssh-server-dropbear"

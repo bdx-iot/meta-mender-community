@@ -1,0 +1,13 @@
+header:
+  version: 8
+  includes:
+    - kas-nxp.yml
+
+machine: imx7dsabresd
+
+local_conf_header:
+  imx7dsabresd: |
+    # Specific Configuration for i.MX7D Sabre
+    IMAGE_BOOT_FILES = "boot.scr"
+    MENDER_UBOOT_ENV_STORAGE_DEVICE_OFFSET_1 = "0xC0000"
+    MENDER_UBOOT_ENV_STORAGE_DEVICE_OFFSET_2 = "0xE0000"

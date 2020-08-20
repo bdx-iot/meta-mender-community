@@ -1,0 +1,35 @@
+header:
+    version: 8
+
+repos:
+    meta-mender-community:
+        layers:
+            meta-mender-atmel:
+
+    poky:
+        url: https://git.yoctoproject.org/git/poky
+        refspec: zeus
+        layers:
+            meta:
+            meta-poky:
+            meta-yocto-bsp:
+
+    meta-atmel:
+        url: git://github.com/linux4sam/meta-atmel
+        refspec: zeus
+
+local_conf_header:
+    atmel-config: |
+        IMAGE_INSTALL_append = " kernel-image kernel-devicetree"
+
+        MENDER_FEATURES_ENABLE_append = " mender-uboot mender-image-sd"
+        MENDER_FEATURES_DISABLE_append = " mender-grub mender-image-uefi"
+
+        # Environment
+        MENDER_UBOOT_ENV_STORAGE_DEVICE_OFFSET_1 = "0x2000"
+        # Redundant environment
+        MENDER_UBOOT_ENV_STORAGE_DEVICE_OFFSET_2 = "0x4000"
+
+        # The U-Boot env file is not needed with Mender (CONFIG_ENV_IS_IN_MMC)
+        # Furthermore, this fixes an error during 'do_image_sdimg' step.
+        IMAGE_BOOT_FILES_remove = "uboot.env"

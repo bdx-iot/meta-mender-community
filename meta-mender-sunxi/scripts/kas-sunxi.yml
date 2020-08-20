@@ -1,0 +1,41 @@
+header:
+    version: 8
+
+machine: tinker-rk3288
+
+repos:
+    meta-mender-community:
+        layers:
+            meta-mender-sunxi:
+
+    poky:
+        url: https://git.yoctoproject.org/git/poky
+        refspec: warrior
+        layers:
+            meta:
+            meta-poky:
+            meta-yocto-bsp:
+
+    meta-openembedded:
+        url: http://git.openembedded.org/meta-openembedded
+        refspec: zeus
+        layers:
+            meta-oe:
+
+    meta-sunxi:
+        url: git://github.com/linux-sunxi/meta-sunxi
+        refspec: zeus
+
+local_conf_header:
+    sunxi-config: |
+        # The orange-pi-pc-plus does not boot when using uImage which is the default,
+        # hence we change the default to zImage for all boards
+        KERNEL_IMAGETYPE ?= "zImage"
+
+        IMAGE_BOOT_FILES = "boot.scr"
+
+        MENDER_IMAGE_BOOTLOADER_FILE="u-boot-sunxi-with-spl.bin"
+        MENDER_IMAGE_BOOTLOADER_BOOTSECTOR_OFFSET="16"
+
+        MENDER_FEATURES_ENABLE_append = " mender-image-sd"
+        MENDER_FEATURES_DISABLE_append = " mender-image-uefi"

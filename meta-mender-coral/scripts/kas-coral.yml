@@ -1,0 +1,57 @@
+header:
+    version: 8
+
+machine: coral-dev
+
+repos:
+    meta-mender-community:
+        layers:
+            meta-mender-coral:
+
+    poky:
+        url: https://git.yoctoproject.org/git/poky
+        refspec: thud
+        layers:
+            meta:
+            meta-poky:
+            meta-yocto-bsp:
+
+    meta-openembedded:
+        url: http://git.openembedded.org/meta-openembedded
+        refspec: warrior
+        layers:
+            meta-oe:
+            meta-multimedia:
+            meta-python:
+
+    meta-freescale:
+        url: https://github.com/Freescale/meta-freescale
+        refspec: zeus
+
+    meta-freescale-3rdparty:
+        url: https://github.com/Freescale/meta-freescale-3rdparty
+        refspec: zeus
+
+    meta-freescale-distro:
+        url: https://github.com/Freescale/meta-freescale-distro
+        refspec: zeus
+
+    meta-clang:
+        url: https://github.com/kraj/meta-clang
+        refspec: zeus
+
+    meta-coral:
+        url: https://github.com/mirzak/meta-coral
+        refspec: zeus
+
+local_conf_header:
+    coral-config: |
+        MENDER_FEATURES_ENABLE_append = " mender-uboot mender-image-sd"
+        MENDER_FEATURES_DISABLE_append = " mender-grub mender-image-uefi"
+
+        MENDER_STORAGE_DEVICE = "/dev/mmcblk1"
+
+        IMAGE_BOOT_FILES = "boot.scr"
+
+        MENDER_IMAGE_BOOTLOADER_FILE = "imx-boot"
+        MENDER_IMAGE_BOOTLOADER_BOOTSECTOR_OFFSET = "66"
